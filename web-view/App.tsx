@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -22,7 +22,9 @@ export default function App() {
             } else if (route.name === "Settings") {
               iconName = focused ? "ios-thumbs-up" : "ios-thumbs-up-outline";
             }
-            return <Ionicons name={iconName} size={size} color={color} />;
+            if (iconName) {
+              return <Ionicons name={iconName} size={size} color={color} />;
+            }
           },
           tabBarActiveTintColor: "#0367A6",
           tabBarInactiveTintColor: "gray",
