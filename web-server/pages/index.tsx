@@ -38,7 +38,9 @@ export default function Home() {
         </Text>
         <Text>주소 : {address}</Text>
         <div className="mt-8 text-center">
-          <Button onClick={() => console.log("click")}>주소 변경</Button>
+          <Button style="mr-4" onClick={() => console.log("click")}>
+            주소 변경
+          </Button>
           <Button onClick={() => console.log("click")}>점심 찾기</Button>
         </div>
       </Container>
