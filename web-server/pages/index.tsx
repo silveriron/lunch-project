@@ -1,18 +1,36 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import { useRouter } from "next/router";
 import Title from "@/components/ui/Title";
 import Text from "@/components/ui/Text";
 import Container from "@/components/ui/Container";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
-
-const inter = Inter({ subsets: ["latin"] });
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
   const { latitude, longitude } = router.query;
-  const [address, setAddress] = useState("관악구 신림로");
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      // if (latitude && longitude) {
+      const address = await axios.post("/api/address", {
+        body: {
+          coord: JSON.stringify({
+            latitude,
+            longitude,
+          }),
+        },
+      });
+      setAddress(
+        address.data.address[0].road_address.address_name
+          ? address.data.address[0].road_address.address_name
+          : "잘못된 주소입니다."
+      );
+      // }
+    })();
+  }, [latitude, longitude]);
 
   return (
     <>
