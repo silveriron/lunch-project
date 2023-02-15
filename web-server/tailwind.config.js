@@ -13,6 +13,7 @@ module.exports = {
       primary: "#0367A6",
       primary_100: "#004E7E",
       white: "#fff",
+      black: "#000",
     },
     extend: {},
   },

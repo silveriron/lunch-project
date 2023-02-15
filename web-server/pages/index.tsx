@@ -1,36 +1,24 @@
+import { MouseEventHandler, ReactEventHandler, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import Title from "@/components/ui/Title";
 import Text from "@/components/ui/Text";
 import Container from "@/components/ui/Container";
-import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
-import axios from "axios";
+import useAddress from "@/hooks/useAddress";
+import ChangeAddressModal from "@/components/modal/ChangeAddressModal";
 
 export default function Home() {
   const router = useRouter();
   const { latitude, longitude } = router.query;
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useAddress(
+    typeof latitude === "string" ? latitude : "",
+    typeof longitude === "string" ? longitude : ""
+  );
+  const [isModal, setIsModal] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      // if (latitude && longitude) {
-      const address = await axios.post("/api/address", {
-        body: {
-          coord: JSON.stringify({
-            latitude,
-            longitude,
-          }),
-        },
-      });
-      setAddress(
-        address.data.address[0].road_address.address_name
-          ? address.data.address[0].road_address.address_name
-          : "잘못된 주소입니다."
-      );
-      // }
-    })();
-  }, [latitude, longitude]);
+  const toggleModal = () => setIsModal((prev) => !prev);
 
   return (
     <>
@@ -54,13 +42,14 @@ export default function Home() {
           아래 주소를 확인해주세요. <br />
           주소가 정확하지 않은 경우 직접 수정해주세요.
         </Text>
-        <Text>주소 : {address}</Text>
+        <Text>{`주소 : ${address}`}</Text>
         <div className="mt-8 text-center">
-          <Button style="mr-4" onClick={() => console.log("click")}>
+          <Button style="mr-4" onClick={toggleModal}>
             주소 변경
           </Button>
           <Button onClick={() => console.log("click")}>점심 찾기</Button>
         </div>
+        {isModal && <ChangeAddressModal toggleModal={toggleModal} />}
       </Container>
     </>
   );
