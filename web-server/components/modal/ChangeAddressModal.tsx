@@ -9,7 +9,7 @@ interface ChangeAddressModalProps {
 
 const ChangeAddressModal = ({ toggleModal }: ChangeAddressModalProps) => {
   const [address, setAddress] = useRecoilState(addressState);
-  const [enteredAddress, setEnteredAddress] = useState(address);
+  const [enteredAddress, setEnteredAddress] = useState(address.address);
 
   const onAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const address = e.target.value;
@@ -17,7 +17,7 @@ const ChangeAddressModal = ({ toggleModal }: ChangeAddressModalProps) => {
   };
 
   const changeAddress = () => {
-    setAddress(enteredAddress);
+    setAddress((prev) => ({ ...prev, address: enteredAddress }));
     toggleModal();
   };
 

@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactEventHandler, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -19,6 +19,10 @@ export default function Home() {
   const [isModal, setIsModal] = useState(false);
 
   const toggleModal = () => setIsModal((prev) => !prev);
+
+  const goToRecommendPage = () => {
+    router.push("/recommend");
+  };
 
   return (
     <>
@@ -42,12 +46,12 @@ export default function Home() {
           아래 주소를 확인해주세요. <br />
           주소가 정확하지 않은 경우 직접 수정해주세요.
         </Text>
-        <Text>{`주소 : ${address}`}</Text>
+        <Text>{`주소 : ${address.address}`}</Text>
         <div className="mt-8 text-center">
           <Button style="mr-4" onClick={toggleModal}>
             주소 변경
           </Button>
-          <Button onClick={() => console.log("click")}>점심 찾기</Button>
+          <Button onClick={goToRecommendPage}>점심 찾기</Button>
         </div>
         {isModal && <ChangeAddressModal toggleModal={toggleModal} />}
       </Container>
