@@ -1,4 +1,4 @@
-import { KAKAO_CATEGORY_API, KAKAO_KEYWORD_API } from "@/constants/api";
+import { KAKAO_ADDRESS2COORD_API } from "@/constants/api";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -6,10 +6,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { address, lat, lng } = req.body.body;
+  const address = req.body.address;
+
   const result = await axios.get(
-    KAKAO_CATEGORY_API +
-      `?category_group_code=FD6&x=${lng}&y=${lat}&radius=1500`,
+    KAKAO_ADDRESS2COORD_API + `?query=${address}`,
     {
       headers: {
         Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`,
@@ -17,7 +17,7 @@ export default async function handler(
     }
   );
 
-  const placeList = result.data.documents;
+  console.log(result.data.documents[0].road_address);
 
-  res.status(200).json({ placeList });
+  res.status(200).json({ address: result.data.documents[0].road_address });
 }

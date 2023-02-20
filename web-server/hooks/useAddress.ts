@@ -12,22 +12,19 @@ const useAddress = (
 
   useEffect(() => {
     (async () => {
-      const address = await axios.post("/api/address", {
-        body: {
-          coord: JSON.stringify({
-            latitude,
-            longitude,
-          }),
+      const address = await axios.post("/api/coordToAddress", {
+        coord: {
+          latitude,
+          longitude,
         },
       });
       setAddress({
         address: address.data.address[0]?.road_address?.address_name
           ? address.data.address[0].road_address.address_name
-          : "잘못된 주소입니다.",
+          : "주소를 다시 검색해주세요.",
         lat: latitude ? +latitude : 0,
         lng: longitude ? +longitude : 0,
       });
-      // }
     })();
   }, [latitude, longitude, setAddress]);
 
