@@ -1,14 +1,19 @@
+import Place from "@/types/place";
 import React from "react";
 import Text from "../ui/Text";
 import PlaceImage from "./ui/PlaceImage";
 
-const PlaceItem = () => {
+interface PlaceItemProps {
+  place: Place;
+}
+
+const PlaceItem = ({ place }: PlaceItemProps) => {
   return (
     <li className="flex h-40  justify-between rounded-md bg-primary p-5">
       <PlaceImage />
       <div className="w-32">
-        <Text style="text-white">홍콩반점</Text>
-        <Text style="text-white">거리 : 1.5Km</Text>
+        <Text style="text-white">{place.place_name}</Text>
+        <Text style="text-white">{`거리 : ${place.distance}m`}</Text>
       </div>
     </li>
   );

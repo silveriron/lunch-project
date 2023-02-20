@@ -1,5 +1,5 @@
 import addressState from "@/store/addressState";
-import { AddressType } from "@/types/Adress";
+import AddressType from "@/types/address";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
@@ -12,7 +12,6 @@ const useAddress = (
 
   useEffect(() => {
     (async () => {
-      // if (latitude && longitude) {
       const address = await axios.post("/api/address", {
         body: {
           coord: JSON.stringify({
@@ -22,7 +21,7 @@ const useAddress = (
         },
       });
       setAddress({
-        address: address.data.address[0].road_address.address_name
+        address: address.data.address[0]?.road_address?.address_name
           ? address.data.address[0].road_address.address_name
           : "잘못된 주소입니다.",
         lat: latitude ? +latitude : 0,

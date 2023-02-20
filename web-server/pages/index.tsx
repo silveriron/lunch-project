@@ -13,8 +13,8 @@ export default function Home() {
   const router = useRouter();
   const { latitude, longitude } = router.query;
   const [address, setAddress] = useAddress(
-    typeof latitude === "string" ? latitude : "",
-    typeof longitude === "string" ? longitude : ""
+    typeof latitude === "string" ? latitude : "127.028361",
+    typeof longitude === "string" ? longitude : "37.496486"
   );
   const [isModal, setIsModal] = useState(false);
 
