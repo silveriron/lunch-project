@@ -21,7 +21,7 @@ export default function Home() {
   const toggleModal = () => setIsModal((prev) => !prev);
 
   const goToRecommendPage = () => {
-    router.push("/recommend");
+    router.push("/place");
   };
 
   return (
