@@ -1,4 +1,5 @@
 import addressState from "@/store/addressState";
+import axios from "axios";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import Button from "../ui/Button";
@@ -9,15 +10,28 @@ interface ChangeAddressModalProps {
 
 const ChangeAddressModal = ({ toggleModal }: ChangeAddressModalProps) => {
   const [address, setAddress] = useRecoilState(addressState);
-  const [enteredAddress, setEnteredAddress] = useState(address);
+  const [enteredAddress, setEnteredAddress] = useState(address.address);
 
   const onAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const address = e.target.value;
     setEnteredAddress(address);
   };
 
-  const changeAddress = () => {
-    setAddress(enteredAddress);
+  const changeAddress = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = await axios.post("/api/addressToCoord", {
+      address: enteredAddress,
+    });
+
+    setAddress({
+      address: result.data.address.address_name,
+      lat: result.data.address.y,
+      lng: result.data.address.x,
+    });
+    toggleModal();
+  };
+
+  const toggle = (e: React.FormEvent) => {
     toggleModal();
   };
 
@@ -40,7 +54,9 @@ const ChangeAddressModal = ({ toggleModal }: ChangeAddressModalProps) => {
         />
         <div>
           <Button onClick={changeAddress}>변경</Button>
-          <Button onClick={toggleModal}>취소</Button>
+          <Button type="button" onClick={toggle}>
+            취소
+          </Button>
         </div>
       </form>
     </>
